@@ -12,7 +12,7 @@ import com.vehicle.model.User;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserDao userDao;
+	UserDao userDao;
 
 	@Override
 	@Transactional

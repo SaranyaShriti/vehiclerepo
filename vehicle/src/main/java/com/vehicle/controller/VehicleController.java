@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vehicle.model.User;
 import com.vehicle.model.Vehicle;
+import com.vehicle.service.UserService;
 import com.vehicle.service.VehicleService;
 
 @Controller
@@ -23,12 +24,14 @@ public class VehicleController {
 
 	@Autowired
 	private VehicleService vehicleService;
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String publicHome() {
-		return "index";
+		return "login";
 	}
-	
+
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String privateHome() {
 		return "privatePage";
@@ -49,12 +52,21 @@ public class VehicleController {
 		model.setViewName("vehicleForm");
 		return model;
 	}
+
 	@RequestMapping(value = "/newUser", method = RequestMethod.GET)
 	public ModelAndView newUser(ModelAndView model) {
 		User user = new User();
 		model.addObject("User", user);
 		model.setViewName("userForm");
 		return model;
+	}
+
+	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+	public ModelAndView saveVehicle(@ModelAttribute User user) {
+
+		userService.createUser(user);
+
+		return new ModelAndView("redirect:/");
 	}
 
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST)

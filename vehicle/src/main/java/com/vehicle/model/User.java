@@ -1,19 +1,35 @@
 package com.vehicle.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.vehicle.model.Gender;
 
 @Entity
+@Table(name = "user")
 public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String employeeId;
+	@Column
 	private String firstName;
+	@Column
 	private String lastName;
+	@Column
 	private Integer age;
+	@Column
 	private Gender gender;
+	@Column
 	private Integer contactNumber;
+	@Column
 	private String email;
+	@Column
 	private String password;
+	@Column
 	private String branch;
 
 	public String getBranch() {
