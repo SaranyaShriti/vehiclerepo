@@ -11,7 +11,7 @@ public interface VehicleService {
 
 	Vehicle updateVehicle(Vehicle vehicle);
 
-	Vehicle searchVehicle(String criteria, String data);
+	List<Vehicle> searchVehicle(Vehicle Vehicle);
 
 	List<Vehicle> getAllVehicle();
 	

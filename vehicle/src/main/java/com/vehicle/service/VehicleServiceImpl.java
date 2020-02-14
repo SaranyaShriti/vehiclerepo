@@ -24,11 +24,6 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public Vehicle searchVehicle(String criteria, String data) {
-		return vehicleDAO.searchVehicle(criteria, data);
-	}
-
-	@Override
 	public List<Vehicle> getAllVehicle() {
 		return vehicleDAO.getAllVehicle();
 
@@ -38,6 +33,11 @@ public class VehicleServiceImpl implements VehicleService {
 	public Vehicle getVehicle(int vehicleId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Vehicle> searchVehicle(Vehicle Vehicle) {
+		return vehicleDAO.searchVehicle(Vehicle);
 	}
 
 }

@@ -13,15 +13,17 @@
 </head>
 <body>
 <div><h4>Login Form</h4>
-<button type="submit" class="btn btn-primary">Register User</button>
+<form action="/test/newUser">
+<button type="submit" class="btn btn-primary" >Register User</button>
+</form>
 </div>
 	<div class="container">
 		<div class="row">
 			<div class="col-3"></div>
 			<div class="col-6">
-				<form>
+				<form action="/vehicleList">
 					<div class="form-group">
-						<label for="username">Username</label> <input type="email"
+						<label for="username">Username</label> <input type="text"
 							class="form-control" id="username">
 					</div>
 					<div class="form-group">

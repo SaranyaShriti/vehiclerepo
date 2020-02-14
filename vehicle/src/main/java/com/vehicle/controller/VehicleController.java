@@ -32,16 +32,12 @@ public class VehicleController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String privateHome() {
-		return "privatePage";
-	}
-
 	@RequestMapping(value = "/vehicleList")
 	public ModelAndView listVehicle(ModelAndView model) throws IOException {
 		List<Vehicle> vehilceList = vehicleService.getAllVehicle();
+		
 		model.addObject("listVehicle", vehilceList);
-		model.setViewName("home");
+		model.setViewName("listVehicle");
 		return model;
 	}
 
@@ -57,16 +53,18 @@ public class VehicleController {
 	public ModelAndView newUser(ModelAndView model) {
 		User user = new User();
 		model.addObject("User", user);
-		model.setViewName("userForm");
+		model.setViewName("createUser");
 		return model;
 	}
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public ModelAndView saveVehicle(@ModelAttribute User user) {
-
-		userService.createUser(user);
-
-		return new ModelAndView("redirect:/");
+		System.out.println("Saved((((((((((((((((((((((((((("+user.getEmail());
+		
+		//userService.createUser(user);
+		ModelAndView model = new ModelAndView();
+		model.setViewName("/test/login");
+		return model;
 	}
 
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST)
@@ -91,13 +89,12 @@ public class VehicleController {
 	}
 
 	@RequestMapping(value = "/searchVehicle", method = RequestMethod.GET)
-	public ModelAndView searchVehicle(HttpServletRequest request) {
-		int vehicleId = Integer.parseInt(request.getParameter("id"));
-		Vehicle vehicle = vehicleService.getVehicle(vehicleId);
-		ModelAndView model = new ModelAndView("VehicleForm");
-		model.addObject("vehicle", vehicle);
-
-		return model;
+	public ModelAndView searchVehicle(@ModelAttribute Vehicle vehicle) {
+		List<Vehicle> searchVehilceList = vehicleService.getAllVehicle();
+		ModelAndView model = new ModelAndView();
+		model.addObject("searchListVehicle", searchVehilceList);
+		model.setViewName("searchList");
+		return (model);
 	}
 
 }

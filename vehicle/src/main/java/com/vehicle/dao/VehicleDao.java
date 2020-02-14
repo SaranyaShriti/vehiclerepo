@@ -2,9 +2,7 @@ package com.vehicle.dao;
 
 import java.util.List;
 
-
 import com.vehicle.model.Vehicle;
-
 
 public interface VehicleDao {
 
@@ -12,7 +10,7 @@ public interface VehicleDao {
 
 	Vehicle updateVehicle(Vehicle vehicle);
 
-	Vehicle searchVehicle(String criteria, String data);
+	List<Vehicle> searchVehicle(Vehicle Vehicle);
 
 	List<Vehicle> getAllVehicle();
 

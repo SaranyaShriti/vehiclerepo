@@ -15,8 +15,10 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public Boolean createUser(User user) {
 		try {
+			sessionFactory.getCurrentSession().save(user);
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
