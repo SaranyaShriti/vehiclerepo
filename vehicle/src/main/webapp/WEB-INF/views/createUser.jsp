@@ -9,13 +9,21 @@
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 <title>User Registration Form</title>
+<style>
+.align-center {
+	text-align: center;
+}
+</style>
 </head>
 <body>
-	<h4>User Registration</h4>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-3"></div>
 			<div class="col-6">
+			<div class="align-center">
+			<h4>USER REGISTRATION</h4>
+			</div>
 				<form action="/test/saveUser" method="POST" name="user">
 
 					<div class="form-group">

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,14 +43,24 @@ public class VehicleDaoImpl implements VehicleDao {
 	@Override
 	public List<Vehicle> getAllVehicle() {
 		List<Vehicle> vehicleList = new ArrayList<Vehicle>();
+		Session session = sessionFactory.openSession();
 		try {
-			Vehicle vehicle = (Vehicle) sessionFactory.getCurrentSession().createQuery("from Vehicle");
-			if (vehicle != null) {
-				vehicleList = Arrays.asList(vehicle);
+			List<Vehicle> vehicle =  session.createQuery("from Vehicle").list();
+			if (vehicle.size()>0) {
+				
+				session.close();
+				System.out.println("{{{{{{"+vehicle.get(0).getBranch()+"}}}}}");
+
+				return vehicleList;
+
 			}
 		} catch (Exception e) {
+			session.close();
 			e.printStackTrace();
+			return vehicleList;
+
 		}
+		session.close();
 		return vehicleList;
 	}
 

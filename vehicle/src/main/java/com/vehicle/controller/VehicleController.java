@@ -3,7 +3,6 @@ package com.vehicle.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class VehicleController {
 	public String publicHome() {
 		return "login";
 	}
-	
+
 	@RequestMapping(value = "/newUser", method = RequestMethod.GET)
 	public ModelAndView newUser(ModelAndView model) {
 		User user = new User();
@@ -62,13 +61,19 @@ public class VehicleController {
 		User user1 = new User();
 		user1.setEmail(login.getUsername());
 		user1.setPassword(login.getPassword());
-		//System.out.println(login.getPassword());
-		
+
 		if(userService.getUserObject(user1))
 		{
 			List<Vehicle> vehilceList = vehicleService.getAllVehicle();
-			model.addObject("listVehicle", vehilceList);
-			model.setViewName("listVehicle");
+			if(vehilceList!=null)
+			{
+				model.addObject("listVehicle", vehilceList);
+				model.setViewName("listVehicle");
+			}
+			else
+			{
+				model.setViewName("listVehicle");
+			}
 		}
 		else
 			model.setViewName("Error");
@@ -84,7 +89,7 @@ public class VehicleController {
 		return model;
 	}
 
-	
+
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST)
 	public ModelAndView saveVehicle(@ModelAttribute Vehicle vehicle) {
 		if (vehicle.getId() == null) { // if vehicle id is 0 then creating the
@@ -96,7 +101,7 @@ public class VehicleController {
 		return new ModelAndView("redirect:/");
 	}
 
-	@RequestMapping(value = "/editVehicle", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/editVehicle", method = RequestMethod.GET)
 	public ModelAndView editVehicle(HttpServletRequest request) {
 		int vehicleId = Integer.parseInt(request.getParameter("id"));
 		Vehicle vehicle = vehicleService.getVehicle(vehicleId);
@@ -104,13 +109,13 @@ public class VehicleController {
 		model.addObject("vehicle", vehicle);
 
 		return model;
-	}
+	}*/
 
 	@RequestMapping(value = "/searchVehicle", method = RequestMethod.GET)
 	public ModelAndView searchVehicle(@ModelAttribute Vehicle vehicle) {
-		List<Vehicle> searchVehilceList = vehicleService.getAllVehicle();
+		List<Vehicle> searchVehicleList = vehicleService.getAllVehicle();
 		ModelAndView model = new ModelAndView();
-		model.addObject("searchListVehicle", searchVehilceList);
+		model.addObject("searchListVehicle", searchVehicleList);
 		model.setViewName("searchList");
 		return (model);
 	}
