@@ -17,7 +17,33 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public Boolean createUser(User user) {
-		return userDao.createUser(user);
+
+
+		 Boolean insertStatus = userDao.createUser(user);
+		 if(insertStatus==true)
+		 {
+			 return true;
+		 }
+		 else
+			 return false;
+
+
+	}
+	
+	@Override
+	@Transactional
+	public Boolean getUserObject(User user) {
+
+
+		 Boolean checkStatus = userDao.getUserObject(user);
+		 if(checkStatus==true)
+		 {
+			 return true;
+		 }
+		 else
+			 return false;
+
+
 	}
 
 }

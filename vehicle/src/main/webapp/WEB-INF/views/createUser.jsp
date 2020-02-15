@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="col-3"></div>
 			<div class="col-6">
-				<form action="/test/saveUser" method="post">
+				<form action="/test/saveUser" method="POST" name="user">
 
 					<div class="form-group">
 						<label for="employeeId"><b>EmployeeId</b></label> <input
@@ -39,7 +39,7 @@
 					</div>
 					<div class="form-group">
 						<label for="gender"><b>Select gender</b></label> <select
-							class="form-control" id="gender">
+							class="form-control" name="gender" id="gender">
 
 							<option value="male">Male</option>
 							<option value="female">Female</option>
@@ -51,7 +51,7 @@
 							class="form-control" name="contactNumber" maxlength="10">
 					</div>
 					<div class="form-group">
-						<label for="email"><b>Email</b></label> <input type="text"
+						<label for="email"><b>Email</b></label> <input type="email"
 							class="form-control" placeholder="Enter Email" name="email" maxlength="50">
 					</div>
 					<div class="form-group">

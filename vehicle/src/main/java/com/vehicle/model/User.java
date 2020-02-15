@@ -7,13 +7,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.vehicle.model.Gender;
 
 @Entity
 @Table(name = "user")
 public class User {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
+	
+	@Column
 	private String employeeId;
 	@Column
 	private String firstName;
@@ -22,7 +25,7 @@ public class User {
 	@Column
 	private Integer age;
 	@Column
-	private Gender gender;
+	private String gender;
 	@Column
 	private Integer contactNumber;
 	@Column
@@ -31,6 +34,35 @@ public class User {
 	private String password;
 	@Column
 	private String branch;
+	
+	
+	
+	public User()
+	{
+		
+	}
+	
+	public User(String employeeId, String firstName, String lastName, Integer age, String gender, Integer contactNumber,
+			String email, String password, String branch) {
+		super();
+		this.employeeId = employeeId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.gender = gender;
+		this.contactNumber = contactNumber;
+		this.email = email;
+		this.password = password;
+		this.branch = branch;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getBranch() {
 		return branch;
@@ -72,11 +104,11 @@ public class User {
 		this.age = age;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 

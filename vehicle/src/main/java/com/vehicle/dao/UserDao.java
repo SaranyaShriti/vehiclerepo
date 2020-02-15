@@ -5,4 +5,6 @@ import com.vehicle.model.User;
 public interface UserDao {
 
 	Boolean createUser(User user);
+	
+	Boolean getUserObject(User user);
 }

@@ -10,30 +10,48 @@
 	crossorigin="anonymous">
 
 <title>Vehicle Reservation Login Page</title>
+<style>
+.align-center {
+	text-align: center;
+}
+</style>
 </head>
 <body>
-<div><h4>Login Form</h4>
-<form action="/test/newUser">
-<button type="submit" class="btn btn-primary" >Register User</button>
-</form>
-</div>
+
+
 	<div class="container">
 		<div class="row">
 			<div class="col-3"></div>
 			<div class="col-6">
-				<form action="/vehicleList">
+				<div class="align-center">
+					<h4>LOGIN FORM</h4>
+				</div>
+
+				<form action="/test/vehicleList" commandName="getList" method="POST">
 					<div class="form-group">
-						<label for="username">Username</label> <input type="text"
+						<label for="username">Username</label> <input type="email" name="username"
 							class="form-control" id="username">
 					</div>
 					<div class="form-group">
-						<label for="password">Password</label> <input type="password"
+						<label for="password">Password</label> <input type="password" name="password"
 							class="form-control" id="password">
 					</div>
-					<button type="submit" class="btn btn-primary">Submit</button>
+					<button type="submit" class="btn btn-primary align-center">Submit</button>
 				</form>
 			</div>
-			<div class="col-3"></div>
+			<div class="col-3">
+				<form action="/test/newUser">
+					<div class="row">
+						<div class="col-6"></div>
+						<div class="col-6">
+							<button type="submit" class="btn btn-primary">Register
+								</button>
+							<br>
+							<p>${message}</p>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

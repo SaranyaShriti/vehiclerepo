@@ -10,7 +10,7 @@
 <form> </form>
 <div class="conatiner">
 <h1>VEHICLE REGISTRATION</h1>
-<table>
+
 
 <input type="text" placeholder="Enter Employee Id" class="form-control"
 							name=employeeId maxlength="6">
@@ -18,17 +18,16 @@
 
 
 
-<tr>
-<td>
-<label for="vehicleNo"><b>Vehicle Number</b></label></td>
-<td>
-<input type="text" placeholder="Enter Vehicle Number " name=vehicle  maxlength="5"></td>
-</tr>
 
-<tr>
-<td><label for="branch"><b>Branch</b></label></td>
-<td><input type="text" placeholder="Enter Branch" name=Branch  maxlength="15">></td>
-</tr>
+<label for="vehicleNo"><b>Vehicle Number</b></label>
+
+<input type="text" placeholder="Enter Vehicle Number " name=vehicle  maxlength="5">
+
+
+
+<label for="branch"><b>Branch</b></label>
+<input type="text" placeholder="Enter Branch" name=Branch  maxlength="15">
+
 
 <tr>
 <td><label for="vehicleType"><b>Vehicle Type</b></td></label>

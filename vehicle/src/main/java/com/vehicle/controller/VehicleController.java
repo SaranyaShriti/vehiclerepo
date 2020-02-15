@@ -11,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.vehicle.model.Login;
 import com.vehicle.model.User;
 import com.vehicle.model.Vehicle;
 import com.vehicle.service.UserService;
@@ -31,13 +33,46 @@ public class VehicleController {
 	public String publicHome() {
 		return "login";
 	}
+	
+	@RequestMapping(value = "/newUser", method = RequestMethod.GET)
+	public ModelAndView newUser(ModelAndView model) {
+		User user = new User();
+		model.addObject("User", user);
+		model.setViewName("createUser");
+		return model;
+	}
 
-	@RequestMapping(value = "/vehicleList")
-	public ModelAndView listVehicle(ModelAndView model) throws IOException {
-		List<Vehicle> vehilceList = vehicleService.getAllVehicle();
+	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+	public ModelAndView saveVehicle(@ModelAttribute User user) {
+		Boolean result = userService.createUser(user);
+		ModelAndView model = new ModelAndView();
+		if (result) {
+			model.addObject("message", "Registered Successfully!");
+			model.setViewName("/login");
+		} else {
+			model.setViewName("/Error");
+		}
+		return model;
+	}
+
+
+	@RequestMapping(value = "/vehicleList", method= RequestMethod.POST )
+	public ModelAndView listVehicle(@ModelAttribute("getList") Login login, ModelAndView model) throws IOException 
+	{
+		User user1 = new User();
+		user1.setEmail(login.getUsername());
+		user1.setPassword(login.getPassword());
+		//System.out.println(login.getPassword());
 		
-		model.addObject("listVehicle", vehilceList);
-		model.setViewName("listVehicle");
+		if(userService.getUserObject(user1))
+		{
+			List<Vehicle> vehilceList = vehicleService.getAllVehicle();
+			model.addObject("listVehicle", vehilceList);
+			model.setViewName("listVehicle");
+		}
+		else
+			model.setViewName("Error");
+
 		return model;
 	}
 
@@ -49,24 +84,7 @@ public class VehicleController {
 		return model;
 	}
 
-	@RequestMapping(value = "/newUser", method = RequestMethod.GET)
-	public ModelAndView newUser(ModelAndView model) {
-		User user = new User();
-		model.addObject("User", user);
-		model.setViewName("createUser");
-		return model;
-	}
-
-	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-	public ModelAndView saveVehicle(@ModelAttribute User user) {
-		System.out.println("Saved((((((((((((((((((((((((((("+user.getEmail());
-		
-		//userService.createUser(user);
-		ModelAndView model = new ModelAndView();
-		model.setViewName("/test/login");
-		return model;
-	}
-
+	
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST)
 	public ModelAndView saveVehicle(@ModelAttribute Vehicle vehicle) {
 		if (vehicle.getId() == null) { // if vehicle id is 0 then creating the
