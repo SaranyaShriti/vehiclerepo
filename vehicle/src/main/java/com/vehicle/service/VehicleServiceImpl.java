@@ -2,6 +2,8 @@ package com.vehicle.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,28 +16,32 @@ public class VehicleServiceImpl implements VehicleService {
 	VehicleDao vehicleDAO;
 
 	@Override
+	@Transactional
 	public Boolean createVehicle(Vehicle vehicle) {
 		return vehicleDAO.createVehicle(vehicle);
 	}
 
 	@Override
-	public Vehicle updateVehicle(Vehicle vehicle) {
+	@Transactional
+	public Boolean updateVehicle(Vehicle vehicle) {
 		return vehicleDAO.updateVehicle(vehicle);
 	}
 
 	@Override
+	@Transactional
 	public List<Vehicle> getAllVehicle() {
 		return vehicleDAO.getAllVehicle();
 
 	}
 
 	@Override
+	@Transactional
 	public Vehicle getVehicle(int vehicleId) {
-		// TODO Auto-generated method stub
-		return null;
+		return vehicleDAO.getVehicle(vehicleId);
 	}
 
 	@Override
+	@Transactional
 	public List<Vehicle> searchVehicle(Vehicle Vehicle) {
 		return vehicleDAO.searchVehicle(Vehicle);
 	}

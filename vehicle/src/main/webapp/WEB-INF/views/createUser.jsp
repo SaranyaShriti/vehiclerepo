@@ -69,7 +69,7 @@
 					</div>
 					<div class="form-group">
 						<label for="branch"><b>Branch</b></label> <input type="text"
-							class="form-control" placeholder="Enter branch" name="branch" maxlength="5">
+							class="form-control" placeholder="Enter branch" name="branch" maxlength="50">
 					</div>
 					<div class="form-group">
 						<div class="row">

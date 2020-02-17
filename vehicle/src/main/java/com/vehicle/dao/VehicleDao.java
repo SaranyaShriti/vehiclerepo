@@ -8,7 +8,7 @@ public interface VehicleDao {
 
 	Boolean createVehicle(Vehicle vehicle);
 
-	Vehicle updateVehicle(Vehicle vehicle);
+	Boolean updateVehicle(Vehicle vehicle);
 
 	List<Vehicle> searchVehicle(Vehicle Vehicle);
 

@@ -27,6 +27,9 @@ public class Vehicle implements Serializable {
 	private String insuranceExpiryDate;
 	@Column
 	private String lastServiceDate;
+	@Column
+	private String serviceDueDate;
+
 
 	public Integer getId() {
 		return id;
@@ -36,7 +39,6 @@ public class Vehicle implements Serializable {
 		this.id = id;
 	}
 
-	private String serviceDueDate;
 
 	public String getServiceDueDate() {
 		return serviceDueDate;

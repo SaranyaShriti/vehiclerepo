@@ -3,14 +3,15 @@ package com.vehicle.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.vehicle.model.Login;
@@ -42,7 +43,7 @@ public class VehicleController {
 	}
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-	public ModelAndView saveVehicle(@ModelAttribute User user) {
+	public ModelAndView saveUser(@ModelAttribute User user) {
 		Boolean result = userService.createUser(user);
 		ModelAndView model = new ModelAndView();
 		if (result) {
@@ -54,30 +55,22 @@ public class VehicleController {
 		return model;
 	}
 
-
-	@RequestMapping(value = "/vehicleList", method= RequestMethod.POST )
-	public ModelAndView listVehicle(@ModelAttribute("getList") Login login, ModelAndView model) throws IOException 
-	{
+	@RequestMapping(value = "/vehicleList", method = RequestMethod.POST)
+	public ModelAndView listVehicle(@ModelAttribute("getList") Login login, ModelAndView model) throws IOException {
 		User user1 = new User();
 		user1.setEmail(login.getUsername());
 		user1.setPassword(login.getPassword());
-
-		if(userService.getUserObject(user1))
-		{
+		if (userService.getUserObject(user1)) {
 			List<Vehicle> vehilceList = vehicleService.getAllVehicle();
-			if(vehilceList!=null)
-			{
+			System.out.println(vehilceList);
+			if (vehilceList.size() > 0) {
 				model.addObject("listVehicle", vehilceList);
 				model.setViewName("listVehicle");
-			}
-			else
-			{
+			} else {
 				model.setViewName("listVehicle");
 			}
-		}
-		else
+		} else
 			model.setViewName("Error");
-
 		return model;
 	}
 
@@ -85,38 +78,69 @@ public class VehicleController {
 	public ModelAndView newVehicle(ModelAndView model) {
 		Vehicle vehicle = new Vehicle();
 		model.addObject("vehicle", vehicle);
-		model.setViewName("vehicleForm");
+		model.setViewName("createVehicle");
 		return model;
 	}
-
 
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST)
 	public ModelAndView saveVehicle(@ModelAttribute Vehicle vehicle) {
-		if (vehicle.getId() == null) { // if vehicle id is 0 then creating the
-			// vehicle other updating the vehicle
-			vehicleService.createVehicle(vehicle);
+		Boolean result = false;
+		ModelAndView model = new ModelAndView();
+		if (vehicle.getId() == null) {
+			result = vehicleService.createVehicle(vehicle);
+			if (result) {
+				model.addObject("message", "Vehicle Added Successfully!");
+				List<Vehicle> vehilceList = vehicleService.getAllVehicle();
+				model.addObject("listVehicle", vehilceList);
+				model.setViewName("/listVehicle");
+			} else {
+				model.addObject("message", "Cannot Add!");
+				model.setViewName("/Error");
+			}
+
 		} else {
-			vehicleService.updateVehicle(vehicle);
+			result = vehicleService.updateVehicle(vehicle);
+			if (result) {
+				List<Vehicle> vehilceList = vehicleService.getAllVehicle();
+				model.addObject("listVehicle", vehilceList);
+				model.addObject("message", "Vehicle Updated Successfully!");
+				model.setViewName("/listVehicle");
+			} else {
+				model.addObject("message", "Cannot Add!");
+				model.setViewName("/Error");
+			}
 		}
-		return new ModelAndView("redirect:/");
+		return model;
 	}
 
-	/*@RequestMapping(value = "/editVehicle", method = RequestMethod.GET)
-	public ModelAndView editVehicle(HttpServletRequest request) {
-		int vehicleId = Integer.parseInt(request.getParameter("id"));
-		Vehicle vehicle = vehicleService.getVehicle(vehicleId);
-		ModelAndView model = new ModelAndView("VehicleForm");
+	@RequestMapping(value = "/editVehicle/{id}", method = RequestMethod.GET)
+	public ModelAndView editVehicle(@PathVariable Integer id) {
+
+		System.out.println(id);
+		Vehicle vehicle = vehicleService.getVehicle(id);
+		System.out.println(vehicle.getVehicleNo());
+		ModelAndView model = new ModelAndView("createVehicle");
 		model.addObject("vehicle", vehicle);
-
 		return model;
-	}*/
+	}
 
-	@RequestMapping(value = "/searchVehicle", method = RequestMethod.GET)
+	@RequestMapping(value = "/searchVehicle", method = RequestMethod.POST)
 	public ModelAndView searchVehicle(@ModelAttribute Vehicle vehicle) {
-		List<Vehicle> searchVehicleList = vehicleService.getAllVehicle();
 		ModelAndView model = new ModelAndView();
-		model.addObject("searchListVehicle", searchVehicleList);
-		model.setViewName("searchList");
+		if (vehicle != null) {
+			if (vehicle.getBranch() != null && vehicle.getInsuranceExpiryDate() != null
+					&& vehicle.getLastServiceDate() != null && vehicle.getServiceDueDate() != null
+					&& vehicle.getVehicleNo() != null && vehicle.getVehicleType() != null) {
+				List<Vehicle> searchVehicleList = vehicleService.searchVehicle(vehicle);
+				if (searchVehicleList.size() > 0) {
+					model.addObject("searchListVehicle", searchVehicleList);
+				} else {
+					model.addObject("message", "No data Found!");
+				}
+
+			}
+		}
+		model.setViewName("searchForm");
 		return (model);
 	}
 

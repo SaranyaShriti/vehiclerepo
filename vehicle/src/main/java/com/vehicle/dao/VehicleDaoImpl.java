@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.vehicle.model.User;
 import com.vehicle.model.Vehicle;
 
 @Repository
@@ -19,8 +22,11 @@ public class VehicleDaoImpl implements VehicleDao {
 
 	@Override
 	public Boolean createVehicle(Vehicle vehicle) {
+		Session session = sessionFactory.getCurrentSession();
+		Integer id = null;
+
 		try {
-			sessionFactory.getCurrentSession().saveOrUpdate(vehicle);
+			id = (Integer) session.save(vehicle);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -30,45 +36,36 @@ public class VehicleDaoImpl implements VehicleDao {
 	}
 
 	@Override
-	public Vehicle updateVehicle(Vehicle vehicle) {
+	public Boolean updateVehicle(Vehicle vehicle) {
 		try {
 			sessionFactory.getCurrentSession().update(vehicle);
-
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
-		return vehicle;
+
 	}
 
 	@Override
 	public List<Vehicle> getAllVehicle() {
-		List<Vehicle> vehicleList = new ArrayList<Vehicle>();
+		List<Vehicle> vehicle = null;
 		Session session = sessionFactory.openSession();
 		try {
-			List<Vehicle> vehicle =  session.createQuery("from Vehicle").list();
-			if (vehicle.size()>0) {
-				
-				session.close();
-				System.out.println("{{{{{{"+vehicle.get(0).getBranch()+"}}}}}");
-
-				return vehicleList;
-
-			}
+			vehicle = session.createQuery("from Vehicle").list();
 		} catch (Exception e) {
-			session.close();
 			e.printStackTrace();
-			return vehicleList;
-
 		}
-		session.close();
-		return vehicleList;
+
+		return vehicle;
 	}
 
 	@Override
 	public Vehicle getVehicle(int vehicleId) {
-		Vehicle vehicle = new Vehicle();
+		Vehicle vehicle = null;
+		Session session = sessionFactory.getCurrentSession();
 		try {
-			vehicle = (Vehicle) sessionFactory.getCurrentSession().get(Vehicle.class, vehicleId);
+			vehicle = (Vehicle) session.get(Vehicle.class, vehicleId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,30 +75,32 @@ public class VehicleDaoImpl implements VehicleDao {
 	@Override
 	public List<Vehicle> searchVehicle(Vehicle Vehicle) {
 		String query = "from Vehicle as v where ";
-		List<Vehicle> vehicleList = new ArrayList<Vehicle>();
+		List<Vehicle> vehicleList = null;
 		try {
 			if (!Vehicle.getBranch().isEmpty()) {
-				query = query + " v.branch = " + Vehicle.getBranch() + "";
+				query = query + " v.branch = '" + Vehicle.getBranch() + "' and ";
 			}
 			if (!Vehicle.getInsuranceExpiryDate().isEmpty()) {
-				query = query + " v.insuranceExpiryDate = " + Vehicle.getInsuranceExpiryDate() + "";
+				query = query + " v.insuranceExpiryDate = '" + Vehicle.getInsuranceExpiryDate() + "' and ";
 			}
 			if (!Vehicle.getLastServiceDate().isEmpty()) {
-				query = query + " v.lastServiceDate =" + Vehicle.getLastServiceDate() + "";
+				query = query + " v.lastServiceDate ='" + Vehicle.getLastServiceDate() + "' and ";
 			}
 			if (!Vehicle.getServiceDueDate().isEmpty()) {
-				query = query + " v.serviceDueDate =" + Vehicle.getServiceDueDate() + "";
+				query = query + " v.serviceDueDate ='" + Vehicle.getServiceDueDate() + "' and ";
 			}
 			if (!Vehicle.getVehicleNo().isEmpty()) {
-				query = query + " v.vehicleNo=" + Vehicle.getVehicleNo() + "";
+				query = query + " v.vehicleNo='" + Vehicle.getVehicleNo() + "' and ";
 			}
 			if (!Vehicle.getVehicleType().isEmpty()) {
-				query = query + "v.vehicleType =" + Vehicle.getVehicleType() + "";
+				query = query + "v.vehicleType ='" + Vehicle.getVehicleType() + "'";
 			}
-			Vehicle vehicle = (Vehicle) sessionFactory.getCurrentSession().createQuery(query);
-			if (vehicle != null) {
-				vehicleList = Arrays.asList(vehicle);
+			if (query.endsWith("and ")) {
+				query = query.substring(0, query.length() - 5);
 			}
+
+			vehicleList = sessionFactory.getCurrentSession().createQuery(query).list();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
