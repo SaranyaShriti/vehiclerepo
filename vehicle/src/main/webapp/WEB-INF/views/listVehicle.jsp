@@ -14,6 +14,9 @@
 .align-center {
 	text-align: center;
 }
+.align-right {
+	float: right;
+}
 </style>
 </head>
 <body>
@@ -27,17 +30,23 @@
 					</button>
 					<p>${message}</p>
 				</form>
-				<form action="/test/searchVehicle" method = "POST">
+				<form action="/test/searchVehicle" method="POST">
 					<button type="submit" class="btn btn-primary">Search</button>
 				</form>
-				
+
 			</div>
 
 			<div class="col-10">
-				<div class="align-center">
-					<h4>VEHICLE LIST</h4>
+				<div>
+					<div class="align-center">
+						<h4>VEHICLE LIST</h4>
+					</div>
+					<div class="align-center">
+					<form action="/test/logout" method="POST">
+						<button type="submit" class="btn btn-primary align-right">Logout</button>
+					</form>
+					</div>
 				</div>
-
 				<table border="1" class="table">
 					<thead class="thead-dark">
 

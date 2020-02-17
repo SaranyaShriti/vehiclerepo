@@ -41,6 +41,12 @@ public class VehicleController {
 		model.setViewName("createUser");
 		return model;
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public ModelAndView logout(ModelAndView model) {
+		model.setViewName("login");
+		return model;
+	}
 
 	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
 	public ModelAndView saveUser(@ModelAttribute User user) {
