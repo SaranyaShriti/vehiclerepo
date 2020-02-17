@@ -75,7 +75,7 @@ public class VehicleDaoImpl implements VehicleDao {
 	@Override
 	public List<Vehicle> searchVehicle(Vehicle Vehicle) {
 		String query = "from Vehicle as v where ";
-		List<Vehicle> vehicleList = null;
+		List<Vehicle> vehicleList = new ArrayList<>();
 		try {
 			if (!Vehicle.getBranch().isEmpty()) {
 				query = query + " v.branch = '" + Vehicle.getBranch() + "' and ";
@@ -98,8 +98,9 @@ public class VehicleDaoImpl implements VehicleDao {
 			if (query.endsWith("and ")) {
 				query = query.substring(0, query.length() - 5);
 			}
-
-			vehicleList = sessionFactory.getCurrentSession().createQuery(query).list();
+			if (!query.endsWith("where ")) {
+				vehicleList = sessionFactory.getCurrentSession().createQuery(query).list();
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
