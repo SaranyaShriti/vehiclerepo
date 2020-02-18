@@ -7,15 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	@Column
 	private String employeeId;
 	@Column
@@ -34,14 +33,11 @@ public class User {
 	private String password;
 	@Column
 	private String branch;
-	
-	
-	
-	public User()
-	{
-		
+
+	public User() {
+
 	}
-	
+
 	public User(String employeeId, String firstName, String lastName, Integer age, String gender, Integer contactNumber,
 			String email, String password, String branch) {
 		super();

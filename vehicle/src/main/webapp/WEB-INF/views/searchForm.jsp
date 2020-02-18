@@ -85,7 +85,6 @@
 									<td>${vehicle.insuranceExpiryDate}</td>
 									<td>${vehicle.lastServiceDate}</td>
 									<td>${vehicle.serviceDueDate}</td>
-
 								</tr>
 							</c:forEach>
 						</table>

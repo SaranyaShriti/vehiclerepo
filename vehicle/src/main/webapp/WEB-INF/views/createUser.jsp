@@ -13,6 +13,10 @@
 .align-center {
 	text-align: center;
 }
+.error{
+  color:red
+  }  
+
 </style>
 </head>
 <body>
@@ -27,49 +31,45 @@
 				<form action="/test/saveUser" method="POST" name="user">
 
 					<div class="form-group">
-						<label for="employeeId"><b>EmployeeId</b></label> <input
-							type="text" placeholder="Enter Employee Id" class="form-control"
-							name=employeeId maxlength="6">
+						<label for="employeeId"><b>EmployeeId</b></label> <input type="text"
+							class="form-control" name="employeeId">
 					</div>
 					<div class="form-group">
 						<label for="firstName"><b>FirstName</b></label> <input type="text"
-							placeholder="Enter FirstName" class="form-control" name=firstName
-							maxlength="50">
+							class="form-control" name="firstName"
+							>
 					</div>
 					<div class="form-group">
-						<label for="lastName"><b>LastName</b></label> <input type="text"
-							placeholder="Enter LastName" class="form-control" name="lastName" maxlength="50">
+						<label for="lastName"><b>LastName</b></label> <input  type="text"
+							 class="form-control" name="lastName"  >
 					</div>
 					<div class="form-group">
 						<label for="age"><b>Age</b></label> <input type="number"
-							placeholder="Enter Age" class="form-control" name="age"
-							maxlength="2">
+							class="form-control" name="age"/>
 					</div>
 					<div class="form-group">
-						<label for="gender"><b>Select gender</b></label> <select
-							class="form-control" name="gender" id="gender">
-
+						<label for="gender"><b>Gender</b></label> <select
+							class="form-control" name="gender" >
 							<option value="male">Male</option>
 							<option value="female">Female</option>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="contactNumber"><b>contactNumber</b></label> <input
-							type="number" placeholder="Enter contactNumber"
-							class="form-control" name="contactNumber" maxlength="10">
+						<label for="contactNumber"><b>contactNumber</b></label> <input type="number"
+							class="form-control" name="contactNumber" maxlength="10" >
 					</div>
 					<div class="form-group">
 						<label for="email"><b>Email</b></label> <input type="email"
-							class="form-control" placeholder="Enter Email" name="email" maxlength="50">
+							class="form-control" name="email" >
 					</div>
 					<div class="form-group">
-						<label for="password"><b>Password</b></label> <input
-							type="password" placeholder="Enter password" name="password"
-							class="form-control" maxlength="15">
+						<label for="password"><b>Password</b></label> <input type="password"
+							 name="password"
+							class="form-control" maxlength="15" >
 					</div>
 					<div class="form-group">
 						<label for="branch"><b>Branch</b></label> <input type="text"
-							class="form-control" placeholder="Enter branch" name="branch" maxlength="50">
+							class="form-control" name="branch">
 					</div>
 					<div class="form-group">
 						<div class="row">
@@ -77,7 +77,7 @@
 								<input type="submit" class="btn btn-primary" value="submit">
 							</div>
 							<div class="col-6">
-								<input type="button" class="btn btn-primary" value="clear">
+								<input type="reset" class="btn btn-primary" value="Reset">
 							</div>
 						</div>
 					</div>

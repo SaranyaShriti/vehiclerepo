@@ -1,50 +1,52 @@
 package com.vehicle.dao;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.vehicle.model.User;
 import com.vehicle.model.Vehicle;
 
 @Repository
 public class VehicleDaoImpl implements VehicleDao {
-
+	private static final Logger log4j = Logger.getLogger(VehicleDaoImpl.class);
 	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
 	public Boolean createVehicle(Vehicle vehicle) {
 		Session session = sessionFactory.getCurrentSession();
-		Integer id = null;
-
+		Boolean isSuccess = false;
 		try {
-			id = (Integer) session.save(vehicle);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+			if (vehicle != null) {
+				session.save(vehicle);
+				isSuccess = true;
+			}
 
+		} catch (Exception e) {
+			log4j.error("Exception in createVehicle" + e);
+			isSuccess = false;
+		}
+		return isSuccess;
 	}
 
 	@Override
 	public Boolean updateVehicle(Vehicle vehicle) {
+		Boolean isSuccess = false;
 		try {
-			sessionFactory.getCurrentSession().update(vehicle);
-			return true;
+			if (vehicle != null) {
+				sessionFactory.getCurrentSession().update(vehicle);
+				isSuccess = true;
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+			log4j.error("Exception in updateVehicle" + e);
+			isSuccess = false;
 		}
-
+		return isSuccess;
 	}
 
 	@Override
@@ -54,7 +56,7 @@ public class VehicleDaoImpl implements VehicleDao {
 		try {
 			vehicle = session.createQuery("from Vehicle").list();
 		} catch (Exception e) {
-			e.printStackTrace();
+			log4j.error("Exception in getAllVehicle" + e);
 		}
 
 		return vehicle;
@@ -67,7 +69,7 @@ public class VehicleDaoImpl implements VehicleDao {
 		try {
 			vehicle = (Vehicle) session.get(Vehicle.class, vehicleId);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log4j.error("Exception in getVehicle" + e);
 		}
 		return vehicle;
 	}
@@ -103,7 +105,7 @@ public class VehicleDaoImpl implements VehicleDao {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			log4j.error("Exception in searchVehicle" + e);
 		}
 		return vehicleList;
 	}

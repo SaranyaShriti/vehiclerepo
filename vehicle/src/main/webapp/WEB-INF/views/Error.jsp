@@ -8,5 +8,6 @@
 </head>
 <body>
 Something Went Wrong!
+<p>${message}</p>
 </body>
 </html>

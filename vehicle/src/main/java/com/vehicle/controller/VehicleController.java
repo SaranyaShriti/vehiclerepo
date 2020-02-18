@@ -3,11 +3,11 @@ package com.vehicle.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +20,13 @@ import com.vehicle.model.Vehicle;
 import com.vehicle.service.UserService;
 import com.vehicle.service.VehicleService;
 
+/**
+ * 
+ * @author saranya.subramani
+ *
+ */
 @Controller
 public class VehicleController {
-	private static final Logger logger = Logger.getLogger(VehicleController.class);
-
 	@Autowired
 	private VehicleService vehicleService;
 	@Autowired
@@ -41,42 +44,58 @@ public class VehicleController {
 		model.setViewName("createUser");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public ModelAndView logout(ModelAndView model) {
 		model.setViewName("login");
 		return model;
 	}
 
-	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
-	public ModelAndView saveUser(@ModelAttribute User user) {
-		Boolean result = userService.createUser(user);
-		ModelAndView model = new ModelAndView();
-		if (result) {
-			model.addObject("message", "Registered Successfully!");
-			model.setViewName("/login");
-		} else {
-			model.setViewName("/Error");
-		}
+	@RequestMapping(value = "/loginError", method = RequestMethod.POST)
+	public ModelAndView loginError(ModelAndView model) {
+		model.setViewName("login");
 		return model;
 	}
 
-	@RequestMapping(value = "/vehicleList", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveUser", method = RequestMethod.POST)
+	public ModelAndView saveUser(@Valid @ModelAttribute User user, BindingResult br) {
+		ModelAndView model = new ModelAndView();
+		if (br.hasErrors()) {
+			model.addObject("User", user);
+			model.setViewName("createUser");
+			return model;
+		} else {
+			Boolean result = userService.createUser(user);
+
+			if (result) {
+				model.addObject("message", "Registered Successfully!");
+				model.setViewName("/login");
+			} else {
+				model.setViewName("/Error");
+			}
+			return model;
+		}
+
+	}
+
+	@RequestMapping(value = "/vehicleList", method = RequestMethod.GET)
 	public ModelAndView listVehicle(@ModelAttribute("getList") Login login, ModelAndView model) throws IOException {
-		User user1 = new User();
-		user1.setEmail(login.getUsername());
-		user1.setPassword(login.getPassword());
-		if (userService.getUserObject(user1)) {
+		if (userService.getUserObject(login)) {
 			List<Vehicle> vehilceList = vehicleService.getAllVehicle();
-			System.out.println(vehilceList);
 			if (vehilceList.size() > 0) {
 				model.addObject("listVehicle", vehilceList);
 				model.setViewName("listVehicle");
 			} else {
+				// model.addObject("listVehicle", "No vehicle Found");
 				model.setViewName("listVehicle");
 			}
-		} else
+		} else {
+			model.addObject("message", "Invalid Credentials");
 			model.setViewName("Error");
+		}
+		List<Vehicle> vehilceList = vehicleService.getAllVehicle();
+		model.setViewName("listVehicle");
+		model.addObject("listVehicle", vehilceList);
 		return model;
 	}
 
@@ -121,8 +140,6 @@ public class VehicleController {
 
 	@RequestMapping(value = "/editVehicle/{id}", method = RequestMethod.GET)
 	public ModelAndView editVehicle(@PathVariable Integer id) {
-
-		System.out.println(id);
 		Vehicle vehicle = vehicleService.getVehicle(id);
 		System.out.println(vehicle.getVehicleNo());
 		ModelAndView model = new ModelAndView("createVehicle");
@@ -143,11 +160,9 @@ public class VehicleController {
 				} else {
 					model.addObject("message", "No data Found!");
 				}
-
 			}
 		}
 		model.setViewName("searchForm");
 		return (model);
 	}
-
 }

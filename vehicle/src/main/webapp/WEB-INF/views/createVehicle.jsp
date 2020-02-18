@@ -50,26 +50,24 @@
 					<div class="form-group">
 						<label for="insuranceExpiryDate"><b>InsuranceExpiryDate</b></label>
 						<input type="text" class="form-control"
-							placeholder="Enter InsuranceExpiryDate"
+							placeholder="dd-MM-yyyy"
 							name="insuranceExpiryDate" value="${vehicle.insuranceExpiryDate}">
 					</div>
 					<div class="form-group">
 						<label for="lastServiceDate"><b>LastServiceDate</b></label> <input
 							type="text" class="form-control"
-							placeholder="Enter lastServiceDate" name="lastServiceDate"
+							placeholder="dd-MM-yyyy" name="lastServiceDate"
 							value="${vehicle.lastServiceDate}">
 					</div>
 					<div class="form-group">
 						<label for="ServiceDueDate"><b>ServiceDueDate</b></label> <input
 							type="text" class="form-control"
-							placeholder="Enter ServiceDueDate" name="serviceDueDate"
+							placeholder="dd-MM-yyyy" name="serviceDueDate"
 							value="${vehicle.serviceDueDate}">
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-primary" value="Submit">
 					</div>
-
-
 				</form>
 
 			</div>

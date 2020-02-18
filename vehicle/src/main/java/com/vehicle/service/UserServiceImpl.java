@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vehicle.dao.UserDao;
+import com.vehicle.model.Login;
 import com.vehicle.model.User;
 
 @Service
@@ -17,32 +18,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public Boolean createUser(User user) {
-
-
-		 Boolean insertStatus = userDao.createUser(user);
-		 if(insertStatus==true)
-		 {
-			 return true;
-		 }
-		 else
-			 return false;
-
-
+		return userDao.createUser(user);
 	}
-	
+
 	@Override
 	@Transactional
-	public Boolean getUserObject(User user) {
-
-
-		 Boolean checkStatus = userDao.getUserObject(user);
-		 if(checkStatus==true)
-		 {
-			 return true;
-		 }
-		 else
-			 return false;
-
+	public Boolean getUserObject(Login loginDetails) {
+		return userDao.getUserObject(loginDetails);
 
 	}
 

@@ -27,9 +27,9 @@
 					<h4>LOGIN FORM</h4>
 				</div>
 
-				<form action="/test/vehicleList" commandName="getList" method="POST">
+				<form action="/test/vehicleList" commandName="getList">
 					<div class="form-group">
-						<label for="username">Username</label> <input type="email" name="username"
+						<label for="username">Username</label> <input type="text" name="username"
 							class="form-control" id="username">
 					</div>
 					<div class="form-group">

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,6 +16,7 @@
 .align-center {
 	text-align: center;
 }
+
 .align-right {
 	float: right;
 }
@@ -42,9 +45,9 @@
 						<h4>VEHICLE LIST</h4>
 					</div>
 					<div class="align-center">
-					<form action="/test/logout" method="POST">
-						<button type="submit" class="btn btn-primary align-right">Logout</button>
-					</form>
+						<form action="/test/logout" method="POST">
+							<button type="submit" class="btn btn-primary align-right">Logout</button>
+						</form>
 					</div>
 				</div>
 				<table border="1" class="table">
@@ -61,20 +64,29 @@
 							<th scope="col">Update Vehicle</th>
 						</tr>
 					</thead>
-					<c:forEach items="${listVehicle}" var="vehicle">
-						<tr>
-							<td>${vehicle.id}</td>
-							<td>${vehicle.vehicleNo}</td>
-							<td>${vehicle.branch}</td>
-							<td>${vehicle.vehicleType}</td>
-							<td>${vehicle.insuranceExpiryDate}</td>
-							<td>${vehicle.lastServiceDate}</td>
-							<td>${vehicle.serviceDueDate}</td>
-							<!-- <td><a href="/test/editVehicle">Edit</a></td> -->
-							<td><a href="<c:url value="/editVehicle/${vehicle.id}"/>">Edit</a></td>
+					<c:choose>
+						<c:when test="${fn:length(listVehicle) > 0}">
+							<c:forEach items="${listVehicle}" var="vehicle">
+								<tr>
+									<td>${vehicle.id}</td>
+									<td>${vehicle.vehicleNo}</td>
+									<td>${vehicle.branch}</td>
+									<td>${vehicle.vehicleType}</td>
+									<td>${vehicle.insuranceExpiryDate}</td>
+									<td>${vehicle.lastServiceDate}</td>
+									<td>${vehicle.serviceDueDate}</td>
+									<td><a href="<c:url value="/editVehicle/${vehicle.id}"/>">Edit</a></td>
+								</tr>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td colspan="8">No vehicles Found</td>
+								
+							</tr>
+						</c:otherwise>
+					</c:choose>
 
-						</tr>
-					</c:forEach>
 				</table>
 			</div>
 
